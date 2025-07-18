@@ -29,3 +29,6 @@ pnpm-debug.log*
 # Prisma
 prisma/dev.db
 prisma/dev.db-journal
+
+# Docker
+pgdata/
