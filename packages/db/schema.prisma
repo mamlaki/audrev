@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model Artist {
+  mb_artist_id        String   @id @db.Text
+  name                String
+  sort_name           String?
+  country_code        String?
+  type                String?
+  formed_year         Int?
+  disbanded_year      Int?
+  ext_json            Json?
+}
+
+model ReleaseGroup {
+  mb_release_group_id String @id @db.Text
+  primary_type        String?
+  title               String
+  first_release_date  DateTime?
+  ext_json            Json?
+
+  releases            Release[] @relation("ReleaseGroupToReleases")
+}
+
+model Release {
+  mb_release_id       String @id @db.Text
+  release_group_id    String @db.Text
+  title               String
+  date                DateTime?
+  country             String?
+  label               String?
+  barcode             String?
+  catalog_no          String?
+  langauge_code       String?
+  script_code         String?
+  ext_json            Json?
+
+  release_group       ReleaseGroup @relation("ReleaseGroupToReleases", fields: [release_group_id], references: [mb_release_group_id])
+}
